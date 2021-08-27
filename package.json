@@ -1,6 +1,6 @@
 {
   "name": "@razaman2/js-factory",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib",
@@ -14,7 +14,7 @@
   "author": "razaman2",
   "license": "MIT",
   "dependencies": {
-    "@razaman2/object-manager": "^1.0.2"
+    "@razaman2/object-manager": "^1.0.6"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
