@@ -6,6 +6,8 @@ export default abstract class Factory {
         [key: string]: object;
     };
     find(name?: string): any;
+    protected validate(object: any): boolean;
+    protected getRegistration(registration: any): any;
     /**
      * instantiate instance with provided arguments
      */
@@ -20,16 +22,16 @@ export default abstract class Factory {
     /**
      * object of application default instances
      */
-    protected getDefaultInstances(): object;
+    protected getDefaultInstances(): any;
     /**
      * object of parent specific instances
      */
-    protected getParentInstances(): object;
+    protected getParentInstances(): any;
     /**
      * default instance to return when a requested instance
      * was not found
      */
     protected abstract getDefaultInstance(): object;
-    private static isObject;
+    static isObject(object: any): boolean;
 }
 //# sourceMappingURL=Factory.d.ts.map

@@ -19,10 +19,10 @@ export default abstract class Factory {
         const searches = this.getSearches();
         
         while (searches.length) {
-            const registration = ObjectManager.on(this.instances).get(`${searches.pop()}`);
+            const registration = ObjectManager.on(this.instances).get(searches.pop());
             
-            if (Factory.isObject(registration)) {
-                const instance = registration[`${this.search}`.toLowerCase()];
+            if (this.validate(registration)) {
+                const instance = this.getRegistration(registration);
                 
                 if (instance) {
                     return instance;
@@ -34,6 +34,14 @@ export default abstract class Factory {
         }
         
         return this.getDefaultInstance();
+    }
+    
+    protected validate(object: any) {
+        return Factory.isObject(object);
+    }
+    
+    protected getRegistration(registration: any) {
+        return registration[this.search.toLowerCase()];
     }
     
     /**
@@ -61,15 +69,13 @@ export default abstract class Factory {
     /**
      * object of application default instances
      */
-    protected getDefaultInstances(): object {
-        return {};
+    protected getDefaultInstances(): any {
     }
     
     /**
      * object of parent specific instances
      */
-    protected getParentInstances(): object {
-        return {};
+    protected getParentInstances(): any {
     }
     
     /**
@@ -78,7 +84,7 @@ export default abstract class Factory {
      */
     protected abstract getDefaultInstance(): object;
     
-    private static isObject(object: any) {
+    public static isObject(object: any) {
         return ((object !== null) && (typeof object === "object"));
     }
 }
