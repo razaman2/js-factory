@@ -1,5 +1,6 @@
 export default abstract class Factory {
     protected parent: string;
+    protected search: string;
     constructor(parent?: string);
     protected instances: {
         [key: string]: object;
