@@ -1,7 +1,7 @@
-import FactoryPattern from "../../src";
+import Factory from "../../src";
 import {describe, it, expect} from "vitest";
 
-class Factory extends FactoryPattern {
+class FactoryTest extends Factory {
     protected getDefaultInstance(): object {
         return Test1;
     }
@@ -60,25 +60,25 @@ class DefaultAge {
 
 describe("Factory Tests", () => {
     it("should find registered default value", () => {
-        const instance = new Factory().find();
+        const instance = new FactoryTest().find();
 
         expect(new instance().name).toBe("default");
     });
 
     it("should instantiate registered default value", () => {
-        const instance = new Factory().instantiate();
+        const instance = new FactoryTest().instantiate();
 
         expect(instance.with().name).toBe("default");
     });
 
     it("should return default value when trying to find unregistered parent value", () => {
-        const instance = new Factory("unregisteredParent").find();
+        const instance = new FactoryTest("unregisteredParent").find();
 
         expect(new instance().name).toBe("default");
     });
 
     it("should instantiate with constructor params", () => {
-        const instance = new Factory().instantiate();
+        const instance = new FactoryTest().instantiate();
 
         const object = instance.with("john", 10);
 
@@ -87,7 +87,7 @@ describe("Factory Tests", () => {
     });
 
     it("should return an object that can be instantiated with params", () => {
-        const instance = new Factory().find();
+        const instance = new FactoryTest().find();
 
         const object = new instance("jane", 20);
 
@@ -96,29 +96,29 @@ describe("Factory Tests", () => {
     });
 
     it("should find registered parent instances", () => {
-        const instance = new Factory("parent1").find();
+        const instance = new FactoryTest("parent1").find();
 
         expect(new instance().name).toBe("parent1");
     });
 
     it("should be able to find the registered instance for a parent", () => {
-        const instance1 = new Factory("parent2").find("name");
-        const instance2 = new Factory("parent2").find("age");
+        const instance1 = new FactoryTest("parent2").find("name");
+        const instance2 = new FactoryTest("parent2").find("age");
 
         expect(new instance1().name).toBe("parent2-name");
         expect(new instance2().age).toBe("parent2-age");
     });
 
     it("should be able to find default registered instance", () => {
-        const instance1 = new Factory().find("name");
-        const instance2 = new Factory().find("age");
+        const instance1 = new FactoryTest().find("name");
+        const instance2 = new FactoryTest().find("age");
 
         expect(new instance1().name).toBe("default-name");
         expect(new instance2().age).toBe("default-age");
     });
 
     it("should search by numbers", () => {
-        expect(new Factory().find(1)).toBe("one");
-        expect(new Factory(1).find(1)).toBe("parent-one");
+        expect(new FactoryTest().find(1)).toBe("one");
+        expect(new FactoryTest(1).find(1)).toBe("parent-one");
     });
 });

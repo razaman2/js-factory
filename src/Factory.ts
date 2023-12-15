@@ -3,7 +3,7 @@ import ObjectManager from "@razaman2/object-manager";
 export default abstract class Factory {
     protected search: string | number = "";
 
-    protected constructor(protected parent: string | number = "") {}
+    public constructor(protected parent: string | number = "") {}
 
     protected instances: {[key: string]: object} = {
         ...this.getParentInstances(),
