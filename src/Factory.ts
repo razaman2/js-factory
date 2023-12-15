@@ -1,14 +1,11 @@
 import ObjectManager from "@razaman2/object-manager";
 
 export default abstract class Factory {
-    protected parent = "";
-    protected search = "";
+    protected search: string | number = "";
 
-    public constructor(parent = "") {
-        this.parent = parent;
-    }
+    protected constructor(protected parent: string | number = "") {}
 
-    protected instances: { [key: string]: object } = {
+    protected instances: {[key: string]: object} = {
         ...this.getParentInstances(),
         default: this.getDefaultInstances(),
     };
@@ -40,7 +37,7 @@ export default abstract class Factory {
     }
 
     protected getRegistration(registration: any) {
-        return registration[this.search.toLowerCase()];
+        return registration[`${this.search}`.toLowerCase()];
     }
 
     /**
@@ -59,7 +56,7 @@ export default abstract class Factory {
     /**
      * instantiate and return resolved instance
      */
-    public instantiate(name = "") {
+    public instantiate(name?: string | number) {
         const instance = this.find(name);
 
         return {with: this.with.bind(this, instance)};
@@ -68,14 +65,12 @@ export default abstract class Factory {
     /**
      * object of application default instances
      */
-    protected getDefaultInstances(): any {
-    }
+    protected getDefaultInstances(): any {}
 
     /**
      * object of parent specific instances
      */
-    protected getParentInstances(): any {
-    }
+    protected getParentInstances(): any {}
 
     /**
      * default instance to return when a requested instance
@@ -84,6 +79,10 @@ export default abstract class Factory {
     protected abstract getDefaultInstance(): object;
 
     public static isObject(object: any) {
-        return ((object !== null) && (typeof object === "object"));
+        try {
+            return object.constructor.name === "Object";
+        } catch {
+            return false;
+        }
     }
 }
