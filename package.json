@@ -17,12 +17,12 @@
     "author": "razaman2",
     "license": "MIT",
     "dependencies": {
-        "@razaman2/object-manager": "^3.3.7"
+        "@razaman2/object-manager": "^3.3.9"
     },
     "devDependencies": {
-        "tsup": "^8.0.1",
-        "typescript": "^5.3.3",
-        "vitest": "^1.0.4"
+        "tsup": "^8.0.2",
+        "typescript": "^5.4.3",
+        "vitest": "^1.4.0"
     },
     "publishConfig": {
         "access": "public"

@@ -17,13 +17,12 @@ export default abstract class Factory {
         while (searches.length) {
             const registration = ObjectManager.on(this.instances).get(searches.pop()!);
 
-            if (this.validate(registration)) {
+            if (this.validate(registration, searches)) {
                 const instance = this.getRegistration(registration);
 
                 if (instance) {
                     return instance;
                 }
-
             } else if (registration) {
                 return registration;
             }
@@ -32,7 +31,7 @@ export default abstract class Factory {
         return this.getDefaultInstance();
     }
 
-    protected validate(object: any) {
+    protected validate(object: any, ...rest: Array<any>) {
         return Factory.isObject(object);
     }
 
@@ -43,10 +42,10 @@ export default abstract class Factory {
     /**
      * instantiate instance with provided arguments
      */
-    protected with(...args: any) {
-        const [instance, ...options] = args;
+    protected with(...args: Array<any>) {
+        const [instance, ...rest] = args;
 
-        return options ? new instance(...options) : new instance();
+        return new instance(...rest);
     }
 
     protected getSearches() {
@@ -73,10 +72,10 @@ export default abstract class Factory {
     protected getParentInstances(): any {}
 
     /**
-     * default instance to return when a requested instance
-     * was not found
+     * default instance to return when a requested instance was not found
+     * you can also throw an error here
      */
-    protected abstract getDefaultInstance(): object;
+    protected abstract getDefaultInstance(): any
 
     public static isObject(object: any) {
         try {

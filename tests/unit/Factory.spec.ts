@@ -2,11 +2,11 @@ import Factory from "../../src";
 import {describe, it, expect} from "vitest";
 
 class FactoryTest extends Factory {
-    protected getDefaultInstance(): object {
+    protected getDefaultInstance() {
         return Test1;
     }
 
-    protected getParentInstances(): object {
+    protected getParentInstances() {
         return {
             parent1: Parent1,
             parent2: {
@@ -19,7 +19,7 @@ class FactoryTest extends Factory {
         };
     }
 
-    protected getDefaultInstances(): object {
+    protected getDefaultInstances() {
         return {
             name: DefaultName,
             age: DefaultAge,
@@ -120,5 +120,15 @@ describe("Factory Tests", () => {
     it("should search by numbers", () => {
         expect(new FactoryTest().find(1)).toBe("one");
         expect(new FactoryTest(1).find(1)).toBe("parent-one");
+    });
+
+    it("can throw error as the default instance", () => {
+        const factory = class extends Factory {
+            protected getDefaultInstance() {
+                throw new Error("No default instance found");
+            }
+        };
+
+        expect(() => new factory().find()).toThrowErrorMatchingInlineSnapshot("[Error: No default instance found]");
     });
 });
